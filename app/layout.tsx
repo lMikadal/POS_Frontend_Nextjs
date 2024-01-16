@@ -21,12 +21,12 @@ export default function RootLayout({
         <div className="drawer lg:drawer-open">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content flex flex-col">
-            <div className="w-full navbar">
+            <div className="w-full navbar p-3 md:p-4">
               <div className="flex-none lg:hidden">
                 <label
                   htmlFor="my-drawer"
                   aria-label="open sidebar"
-                  className="btn btn-square btn-ghost"
+                  className="btn btn-ghost p-0"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@ export default function RootLayout({
                 </label>
               </div>
             </div>
-            {children}
+            <div className="p-3 md:p-4">{children}</div>
           </div>
           <Sidebar />
         </div>

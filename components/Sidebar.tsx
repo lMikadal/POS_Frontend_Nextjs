@@ -7,7 +7,7 @@ const Sidebar = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu px-2 pt-4 md:p-4 w-44 md:w-56 min-h-full bg-base-200">
+        <ul className="menu px-2 pt-4 md:p-4 w-44 md:w-56 min-h-full bg-base-200 text-base-content">
           <li>
             <a>
               <svg
