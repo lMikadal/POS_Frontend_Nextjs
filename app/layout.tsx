@@ -43,6 +43,13 @@ export default function RootLayout({
                   </svg>
                 </label>
               </div>
+              <div className="flex-1 px-3">
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  className="input input-bordered input-md w-full max-w-xl"
+                />
+              </div>
             </div>
             <div className="p-3 md:p-4">{children}</div>
           </div>
