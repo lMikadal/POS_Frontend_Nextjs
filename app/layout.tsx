@@ -21,7 +21,7 @@ export default function RootLayout({
         <div className="drawer lg:drawer-open">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content flex flex-col">
-            <div className="w-full navbar p-3 md:p-4">
+            <div className="w-full navbar p-4">
               <div className="flex-none lg:hidden">
                 <label
                   htmlFor="my-drawer"
@@ -43,7 +43,7 @@ export default function RootLayout({
                   </svg>
                 </label>
               </div>
-              <div className="flex-1 px-3">
+              <div className="flex-1 px-3 lg:px-0">
                 <input
                   type="text"
                   placeholder="Type here"
@@ -51,7 +51,7 @@ export default function RootLayout({
                 />
               </div>
             </div>
-            <div className="p-3 md:p-4">{children}</div>
+            <div className="px-4">{children}</div>
           </div>
           <Sidebar />
         </div>
