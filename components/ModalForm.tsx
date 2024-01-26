@@ -1,6 +1,13 @@
 import { ModalFormProp } from "@/types";
+import { eventNames } from "process";
 
-const ModalForm = ({ nameButton, FormHeader, inputForm }: ModalFormProp) => {
+const ModalForm = ({
+  nameButton,
+  FormHeader,
+  inputForm,
+  funcHandleInput,
+  funcOnSubmit,
+}: ModalFormProp) => {
   return (
     <>
       <button
@@ -8,14 +15,14 @@ const ModalForm = ({ nameButton, FormHeader, inputForm }: ModalFormProp) => {
         onClick={() => {
           if (document) {
             (
-              document.getElementById("my_modal_1") as HTMLFormElement
+              document.getElementById("my_modal") as HTMLFormElement
             ).showModal();
           }
         }}
       >
         {nameButton}
       </button>
-      <dialog id="my_modal_1" className="modal">
+      <dialog id="my_modal" className="modal">
         <div className="modal-box">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
@@ -32,13 +39,16 @@ const ModalForm = ({ nameButton, FormHeader, inputForm }: ModalFormProp) => {
                 type={input.type}
                 placeholder={input.label}
                 name={input.name}
+                onChange={(e) => funcHandleInput(e)}
                 className="input input-bordered input-sm w-full max-w-xs"
               />
             </div>
           ))}
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn btn-sm">บันทึก</button>
+              <button className="btn btn-sm" onClick={funcOnSubmit}>
+                บันทึก
+              </button>
             </form>
           </div>
         </div>

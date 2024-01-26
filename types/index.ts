@@ -6,4 +6,6 @@ export interface ModalFormProp {
 		type: string;
 		name: string;
 	}[];
+	funcHandleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	funcOnSubmit: () => void;
 }
