@@ -8,13 +8,20 @@ export default function Tag() {
   const [formTag, setFormTag] = useState({
     name: "",
   });
-  const [tagList, setTagList] = useState([]);
+  const [tagList, setTagList] = useState([
+    {
+      id: 0,
+      name: "",
+      goods: [],
+    },
+  ]);
 
   const inputs = [
     {
       label: "ชื่อแท็ก",
       type: "text",
       name: "name",
+      value: formTag.name,
     },
   ];
 
@@ -33,7 +40,10 @@ export default function Tag() {
     const tagUrl = `${url}/tags/`;
 
     axios.post(tagUrl, JSON.stringify(formTag)).then((res) => {
-      //   console.log(res);
+      setTagList([...tagList, ...[res.data.data]]);
+      setFormTag({
+        name: "",
+      });
     });
   };
 
@@ -42,7 +52,6 @@ export default function Tag() {
     const tagUrl = `${url}/tags/`;
 
     axios.get(tagUrl).then((res) => {
-      console.log(res.data.data);
       setTagList(res.data.data);
     });
   }, []);
@@ -58,14 +67,28 @@ export default function Tag() {
         />
       </div>
       <h1>tag</h1>
-      {tagList.map((tag: any, idx) => {
-        return (
-          <div key={idx}>
-            <p>{tag.id}</p>
-            <p>{tag.name}</p>
-          </div>
-        );
-      })}
+      <div className="overflow-x-auto">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>ลำดับ</th>
+              <th>ชื่อแท็ก</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {tagList.map((tag: any, idx) => {
+              return (
+                <tr className="hover" key={idx}>
+                  <th>{idx + 1}</th>
+                  <th>{tag.name}</th>
+                  <td>action</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }

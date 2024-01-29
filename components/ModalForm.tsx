@@ -40,6 +40,7 @@ const ModalForm = ({
                 placeholder={input.label}
                 name={input.name}
                 onChange={(e) => funcHandleInput(e)}
+                value={input.value}
                 className="input input-bordered input-sm w-full max-w-xs"
               />
             </div>
