@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 export default function Tag() {
   const [formTag, setFormTag] = useState({
+    id: 0,
     name: "",
   });
   const [tagList, setTagList] = useState([
@@ -36,30 +37,68 @@ export default function Tag() {
   };
 
   const onSubmitForm = () => {
-    const url = process.env.API_URL;
-    const tagUrl = `${url}/tags/`;
+    let tagUrl = `${process.env.API_URL}/tags/`;
+    const dataSend = {
+      name: formTag.name,
+    };
 
-    axios.post(tagUrl, JSON.stringify(formTag)).then((res) => {
-      setTagList([...tagList, ...[res.data.data]]);
-      setFormTag({
-        name: "",
+    if (formTag.id > 0) {
+      tagUrl = `${process.env.API_URL}/tags/${formTag.id}`;
+      axios.put(tagUrl, JSON.stringify(dataSend)).then((res) => {
+        setTagList(
+          tagList.map((tag: any) => {
+            if (tag.id === formTag.id) {
+              return res.data.data;
+            }
+            return tag;
+          })
+        );
       });
+    } else {
+      axios.post(tagUrl, JSON.stringify(dataSend)).then((res) => {
+        setTagList([...tagList, ...[res.data.data]]);
+      });
+    }
+    setFormTag({
+      id: 0,
+      name: "",
     });
   };
 
+  const onEditForm = (id: number, name: string) => {
+    setFormTag({
+      id: id,
+      name: name,
+    });
+    if (document) {
+      (document.getElementById("my_modal") as HTMLFormElement).showModal();
+    }
+  };
+
   useEffect(() => {
-    const url = process.env.API_URL;
-    const tagUrl = `${url}/tags/`;
+    const tagUrl = `${process.env.API_URL}/tags/`;
 
     axios.get(tagUrl).then((res) => {
       setTagList(res.data.data);
     });
   }, []);
+
   return (
     <>
       <div className="flex justify-end">
+        <button
+          className="btn btn-outline btn-sm"
+          onClick={() => {
+            if (document) {
+              (
+                document.getElementById("my_modal") as HTMLFormElement
+              ).showModal();
+            }
+          }}
+        >
+          เพิ่มแท็ก
+        </button>
         <ModalForm
-          nameButton="เพิ่มแท็ก"
           FormHeader="เพิ่มแท็ก"
           inputForm={inputs}
           funcHandleInput={handleInput}
@@ -82,7 +121,14 @@ export default function Tag() {
                 <tr className="hover" key={idx}>
                   <th>{idx + 1}</th>
                   <th>{tag.name}</th>
-                  <td>action</td>
+                  <td>
+                    <button
+                      className="btn btn-outline btn-sm"
+                      onClick={() => onEditForm(tag.id, tag.name)}
+                    >
+                      แก้ไข
+                    </button>
+                  </td>
                 </tr>
               );
             })}

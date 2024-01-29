@@ -1,8 +1,6 @@
 import { ModalFormProp } from "@/types";
-import { eventNames } from "process";
 
 const ModalForm = ({
-  nameButton,
   FormHeader,
   inputForm,
   funcHandleInput,
@@ -10,18 +8,6 @@ const ModalForm = ({
 }: ModalFormProp) => {
   return (
     <>
-      <button
-        className="btn btn-outline btn-sm"
-        onClick={() => {
-          if (document) {
-            (
-              document.getElementById("my_modal") as HTMLFormElement
-            ).showModal();
-          }
-        }}
-      >
-        {nameButton}
-      </button>
       <dialog id="my_modal" className="modal">
         <div className="modal-box">
           <form method="dialog">
