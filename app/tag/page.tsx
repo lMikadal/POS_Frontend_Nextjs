@@ -1,6 +1,5 @@
 "use client";
 
-import { ModalForm } from "@/components";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -17,15 +16,6 @@ export default function Tag() {
     },
   ]);
 
-  const inputs = [
-    {
-      label: "ชื่อแท็ก",
-      type: "text",
-      name: "name",
-      value: formTag.name,
-    },
-  ];
-
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
@@ -34,6 +24,20 @@ export default function Tag() {
       ...prevState,
       [fieldName]: fieldValue,
     }));
+  };
+
+  const onEditForm = (id: number, name: string) => {
+    setFormTag({
+      id: id,
+      name: name,
+    });
+  };
+
+  const onDeleteForm = (id: number) => {
+    const tagUrl = `${process.env.API_URL}/tags/${id}`;
+    axios.delete(tagUrl).then((res) => {
+      setTagList(tagList.filter((tag: any) => tag.id !== id));
+    });
   };
 
   const onSubmitForm = () => {
@@ -65,16 +69,6 @@ export default function Tag() {
     });
   };
 
-  const onEditForm = (id: number, name: string) => {
-    setFormTag({
-      id: id,
-      name: name,
-    });
-    if (document) {
-      (document.getElementById("my_modal") as HTMLFormElement).showModal();
-    }
-  };
-
   useEffect(() => {
     const tagUrl = `${process.env.API_URL}/tags/`;
 
@@ -85,29 +79,36 @@ export default function Tag() {
 
   return (
     <>
-      <div className="flex justify-end">
-        <button
-          className="btn btn-outline btn-sm"
-          onClick={() => {
-            if (document) {
-              (
-                document.getElementById("my_modal") as HTMLFormElement
-              ).showModal();
-            }
-          }}
-        >
-          เพิ่มแท็ก
+      <h1>tag page</h1>
+      <div>
+        <div>
+          <label>idแท็ก</label>
+          <input
+            type="text"
+            name="id"
+            placeholder="idแท็ก"
+            onChange={(e) => handleInput(e)}
+            value={formTag.id}
+            className="border border-gray-300"
+          />
+        </div>
+        <div>
+          <label>ชื่อแท็ก</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="ชื่อแท็ก"
+            onChange={(e) => handleInput(e)}
+            value={formTag.name}
+            className="border border-gray-300"
+          />
+        </div>
+        <button className="border border-gray-300" onClick={onSubmitForm}>
+          บันทึก
         </button>
-        <ModalForm
-          FormHeader="เพิ่มแท็ก"
-          inputForm={inputs}
-          funcHandleInput={handleInput}
-          funcOnSubmit={onSubmitForm}
-        />
       </div>
-      <h1>tag</h1>
-      <div className="overflow-x-auto">
-        <table className="table">
+      <div>
+        <table>
           <thead>
             <tr>
               <th>ลำดับ</th>
@@ -118,15 +119,21 @@ export default function Tag() {
           <tbody>
             {tagList.map((tag: any, idx) => {
               return (
-                <tr className="hover" key={idx}>
-                  <th>{idx + 1}</th>
-                  <th>{tag.name}</th>
+                <tr key={idx}>
+                  <td>{idx + 1}</td>
+                  <td>{tag.name}</td>
                   <td>
                     <button
-                      className="btn btn-outline btn-sm"
+                      className="border border-gray-300"
                       onClick={() => onEditForm(tag.id, tag.name)}
                     >
                       แก้ไข
+                    </button>
+                    <button
+                      className="border border-gray-300"
+                      onClick={() => onDeleteForm(tag.id)}
+                    >
+                      ลบ
                     </button>
                   </td>
                 </tr>

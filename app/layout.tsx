@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Sidebar } from "@/components";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,46 +15,30 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const links = [
+    {
+      href: "/",
+      title: "หน้าหลัก",
+    },
+    {
+      href: "/tag",
+      title: "เพิ่มแท็ก",
+    },
+    {
+      href: "/product",
+      title: "เพิ่มสินค้า",
+    },
+  ];
+
   return (
     <html lang="en" data-theme="light">
       <body className={inter.className}>
-        <div className="drawer lg:drawer-open">
-          <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content flex flex-col">
-            <div className="w-full navbar p-4">
-              <div className="flex-none lg:hidden">
-                <label
-                  htmlFor="my-drawer"
-                  aria-label="open sidebar"
-                  className="btn btn-ghost p-0"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    className="inline-block w-6 h-6 stroke-current"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 6h16M4 12h16M4 18h16"
-                    ></path>
-                  </svg>
-                </label>
-              </div>
-              <div className="flex-1 px-3 lg:px-0">
-                <input
-                  type="text"
-                  placeholder="Type here"
-                  className="input input-bordered input-md w-full max-w-xl"
-                />
-              </div>
-            </div>
-            <div className="px-4">{children}</div>
-          </div>
-          <Sidebar />
-        </div>
+        {links.map((link, idx) => (
+          <span key={idx} className="mr-3">
+            - <Link href={link.href}>{link.title}</Link>
+          </span>
+        ))}
+        <div className="p-4">{children}</div>
       </body>
     </html>
   );
