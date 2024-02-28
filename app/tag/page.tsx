@@ -69,13 +69,13 @@ export default function Tag() {
     });
   };
 
-  useEffect(() => {
-    const tagUrl = `${process.env.API_URL}/tags/`;
+  // useEffect(() => {
+  //   const tagUrl = `${process.env.API_URL}/tags/`;
 
-    axios.get(tagUrl).then((res) => {
-      setTagList(res.data.data);
-    });
-  }, []);
+  //   axios.get(tagUrl).then((res) => {
+  //     setTagList(res.data.data);
+  //   });
+  // }, []);
 
   return (
     <>
